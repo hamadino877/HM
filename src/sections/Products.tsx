@@ -19,7 +19,7 @@ const products: Product[] = [
     category: 'مصفحة',
     tags: ['HPL', 'مقاوم للماء', 'عازل للصوت'],
     badge: 'الأكثر مبيعاً',
-    image: '/images/door-hpl-1.jpg',
+    image: './images/door-hpl-1.jpg',
     large: true,
   },
   {
@@ -28,7 +28,7 @@ const products: Product[] = [
     code: 'HPL-GT01',
     category: 'غرف',
     tags: ['HPL', 'تخصيص'],
-    image: '/images/door-hpl-2.jpg',
+    image: './images/door-hpl-2.jpg',
   },
   {
     id: '3',
@@ -37,7 +37,7 @@ const products: Product[] = [
     category: 'سادة',
     tags: ['HPL', 'مقاوم للحرارة'],
     badge: 'جديد',
-    image: '/images/door-hpl-3.jpg',
+    image: './images/door-hpl-3.jpg',
   },
   {
     id: '4',
@@ -45,7 +45,7 @@ const products: Product[] = [
     code: 'HPL-PZL01',
     category: 'حفر',
     tags: ['زجاج مات', 'أنيق'],
-    image: '/images/door-modern-1.jpg',
+    image: './images/door-modern-1.jpg',
   },
   {
     id: '5',
@@ -53,7 +53,7 @@ const products: Product[] = [
     code: 'HPL-GT05',
     category: 'استانلس',
     tags: ['HPL', 'خط ذهبي'],
-    image: '/images/door-hpl-2.jpg',
+    image: './images/door-hpl-2.jpg',
   },
   {
     id: '6',
@@ -61,7 +61,7 @@ const products: Product[] = [
     code: 'HPL-XP01',
     category: 'لونين',
     tags: ['HPL', 'هندسي'],
-    image: '/images/door-hpl-1.jpg',
+    image: './images/door-hpl-1.jpg',
   },
 ]
 
@@ -86,6 +86,19 @@ export default function Products() {
 
   return (
     <section id="products" className="py-28 lg:py-36 px-6 lg:px-16 bg-[hsl(var(--dark-2))]">
+
+      {/* Video */}
+      <div className="mb-16 reveal">
+        <video
+          src="./videos/menu.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full rounded-sm border border-[hsl(var(--gold)/0.2)]"
+        />
+      </div>
+
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-16">
         <div>
