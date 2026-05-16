@@ -39,7 +39,7 @@ export default function HPLSection() {
         {/* Image */}
         <div className="relative reveal">
           <img
-            src="/images/hpl-material.jpg"
+            src="./images/hpl-material.jpg"
             alt="HPL Material"
             className="w-full object-cover border border-[hsl(var(--gold)/0.2)]"
           />

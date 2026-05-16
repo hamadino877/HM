@@ -5,12 +5,12 @@ export default function About() {
         {/* Visual */}
         <div className="relative reveal">
           <img
-            src="/images/door-hpl-2.jpg"
+            src="./images/door-hpl-2.jpg"
             alt="HM Doors Workshop"
             className="w-full aspect-[4/5] object-cover border-2 border-[hsl(var(--gold)/0.2)]"
           />
           <img
-            src="/images/door-arch.jpg"
+            src="./images/door-arch.jpg"
             alt="Door Detail"
             className="absolute -bottom-10 -left-10 w-[55%] aspect-square object-cover border-4 border-[hsl(var(--dark-1))] shadow-2xl"
           />

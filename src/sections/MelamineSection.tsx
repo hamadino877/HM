@@ -22,7 +22,7 @@ export default function MelamineSection() {
         {/* Image */}
         <div className="relative reveal order-2 lg:order-1">
           <img
-            src="/images/melamine-kitchen.jpg"
+            src="./images/melamine-kitchen.jpg"
             alt="Melamine Kitchen"
             className="w-full object-cover border border-[hsl(var(--gold)/0.2)]"
           />
