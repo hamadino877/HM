@@ -1,230 +1,197 @@
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useState } from 'react'
 
-gsap.registerPlugin(ScrollTrigger);
-
-interface Category {
-  id: string;
-  name: string;
-  images: string[];
+interface Product {
+  id: string
+  name: string
+  code: string
+  category: string
+  tags: string[]
+  badge?: string
+  image: string
+  large?: boolean
 }
 
-const categories: Category[] = [
+const products: Product[] = [
   {
-    id: 'flush',
-    name: 'الأبواب المصفحة',
-    images: ['/images/flush-door-1.jpg', '/images/flush-door-2.jpg', '/images/flush-door-3.jpg', '/images/flush-door-4.jpg'],
+    id: '1',
+    name: 'الباب العصري المميز',
+    code: 'HPL-YX01',
+    category: 'modern',
+    tags: ['HPL', 'مقاوم للماء', 'عازل للصوت'],
+    badge: 'الأكثر مبيعاً',
+    image: '/images/door-hpl-1.jpg',
+    large: true,
   },
   {
-    id: 'panel',
-    name: 'أبواب الألواح',
-    images: ['/images/panel-door-1.jpg'],
+    id: '2',
+    name: 'الباب الكلاسيكي الفاخر',
+    code: 'HPL-GT01',
+    category: 'classic',
+    tags: ['HPL', 'تخصيص'],
+    image: '/images/door-hpl-2.jpg',
   },
   {
-    id: 'louvered',
-    name: 'أبواب ايطالي',
-    images: ['/images/louvered-door-1.jpg', '/images/louvered-door-2.jpg'],
+    id: '3',
+    name: 'باب بإطار علوي متكامل',
+    code: 'HPL-PTM02',
+    category: 'premium',
+    tags: ['HPL', 'مقاوم للحرارة'],
+    badge: 'جديد',
+    image: '/images/door-hpl-3.jpg',
   },
   {
-    id: 'barn',
-    name: 'أبواب غرف',
-    images: ['/images/barn-door-1.jpg'],
+    id: '4',
+    name: 'باب بنافذة زجاجية',
+    code: 'HPL-PZL01',
+    category: 'glass',
+    tags: ['زجاج مات', 'أنيق'],
+    image: '/images/door-modern-1.jpg',
   },
   {
-    id: 'glass',
-    name: 'أبواب زجاجية',
-    images: ['/images/glass-door-1.jpg'],
+    id: '5',
+    name: 'باب بخطوط ذهبية',
+    code: 'HPL-GT05',
+    category: 'classic',
+    tags: ['HPL', 'خط ذهبي'],
+    image: '/images/door-hpl-2.jpg',
   },
   {
-    id: 'pivot',
-    name: 'أبواب دوارة',
-    images: ['/images/pivot-door-1.jpg'],
+    id: '6',
+    name: 'باب بتصميم هندسي',
+    code: 'HPL-XP01',
+    category: 'modern',
+    tags: ['HPL', 'هندسي'],
+    image: '/images/door-hpl-1.jpg',
   },
-];
+]
+
+const filters = [
+  { key: 'all', label: 'الكل' },
+  { key: 'modern', label: 'عصري' },
+  { key: 'classic', label: 'كلاسيك' },
+  { key: 'premium', label: 'راقي' },
+  { key: 'glass', label: 'بالزجاج' },
+]
 
 export default function Products() {
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [activeImage, setActiveImage] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const galleryRef = useRef<HTMLDivElement>(null);
-  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeFilter, setActiveFilter] = useState('all')
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Header entrance
-      gsap.fromTo(
-        headerRef.current,
-        { y: 40, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.8, ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-          },
-        }
-      );
-
-      // Gallery entrance
-      gsap.fromTo(
-        galleryRef.current,
-        { y: 60, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.8, ease: 'power3.out',
-          scrollTrigger: {
-            trigger: galleryRef.current,
-            start: 'top 75%',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  useEffect(() => {
-    // Animate image change
-    imageRefs.current.forEach((el) => {
-      if (el) gsap.to(el, { opacity: 0, scale: 1.05, duration: 0.4, ease: 'power2.inOut' });
-    });
-    const activeEl = imageRefs.current[activeImage];
-    if (activeEl) {
-      gsap.to(activeEl, { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out', delay: 0.1 });
-    }
-  }, [activeImage, activeCategory]);
-
-  const currentCategory = categories[activeCategory];
+  const filtered = activeFilter === 'all'
+    ? products
+    : products.filter(p => p.category === activeFilter)
 
   return (
-    <section
-      ref={sectionRef}
-      id="products"
-      className="relative w-full py-20 lg:py-32"
-      style={{ background: '#2A2927' }}
-    >
-      <div className="max-w-[1400px] mx-auto px-5 lg:px-12">
-        {/* Header */}
-        <div ref={headerRef} className="text-center mb-12 lg:mb-16">
-          <span
-            className="font-body text-sm font-medium"
-            style={{ color: '#D4A853', letterSpacing: '2px' }}
-          >
-            مجموعتنا
-          </span>
-          <h2
-            className="font-display mt-3"
-            style={{
-              fontSize: 'clamp(36px, 5vw, 72px)',
-              color: '#F4EDE4',
-              letterSpacing: '-1.5px',
-            }}
-          >
-            تشكيلة واسعة من الأبواب
+    <section id="products" className="py-28 lg:py-36 px-6 lg:px-16 bg-[hsl(var(--dark-2))]">
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-16">
+        <div>
+          <div className="section-label reveal">كتالوج المنتجات</div>
+          <h2 className="section-title reveal" style={{ transitionDelay: '100ms' }}>
+            تشكيلة <span className="text-[hsl(var(--gold))]">واسعة</span><br />لكل ذوق
           </h2>
-          <p
-            className="font-body mt-4 mx-auto max-w-xl"
-            style={{ fontSize: '18px', color: 'rgba(244,237,228,0.7)', lineHeight: 1.7 }}
-          >
-            نقدم لك أحدث تشكيلات الأبواب الداخلية بأفضل الأسعار
-          </p>
         </div>
-
-        {/* Gallery */}
-        <div ref={galleryRef} className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-          {/* Category Sidebar */}
-          <div className="lg:w-72 flex-shrink-0">
-            <div
-              className="rounded-2xl p-6"
-              style={{
-                background: 'rgba(42,41,39,0.7)',
-                backdropFilter: 'blur(12px)',
-                border: '1px solid rgba(244,237,228,0.06)',
-              }}
+        <div className="flex gap-2 flex-wrap reveal" style={{ transitionDelay: '200ms' }}>
+          {filters.map((f) => (
+            <button
+              key={f.key}
+              onClick={() => setActiveFilter(f.key)}
+              className={`px-5 py-2 rounded-full border text-sm font-medium transition-all duration-300 ${
+                activeFilter === f.key
+                  ? 'bg-[hsl(var(--gold)/0.15)] border-[hsl(var(--gold))] text-[hsl(var(--gold))]'
+                  : 'border-[hsl(var(--gold)/0.3)] text-[hsl(var(--cream-dim))] hover:bg-[hsl(var(--gold)/0.1)] hover:border-[hsl(var(--gold)/0.5)]'
+              }`}
             >
-              <h3 className="font-body text-lg font-medium mb-4" style={{ color: '#F4EDE4' }}>
-                مجموعة أبوابنا
-              </h3>
-              <div className="flex flex-col gap-0">
-                {categories.map((cat, idx) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => { setActiveCategory(idx); setActiveImage(0); }}
-                    className="font-body text-sm text-right py-2.5 px-3 rounded-lg transition-all duration-300 relative"
-                    style={{
-                      color: idx === activeCategory ? '#D4A853' : '#999',
-                      borderRight: idx === activeCategory ? '3px solid #D4A853' : '3px solid transparent',
-                      background: idx === activeCategory ? 'rgba(212,168,83,0.08)' : 'transparent',
-                    }}
-                  >
-                    {cat.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Main Image Viewer */}
-          <div className="flex-1">
-            <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: '4/3' }}>
-              {currentCategory.images.map((img, idx) => (
-                <div
-                  key={`${activeCategory}-${idx}`}
-                  ref={(el) => { imageRefs.current[idx] = el; }}
-                  className="absolute inset-0"
-                  style={{ opacity: idx === activeImage ? 1 : 0 }}
-                >
-                  <img
-                    src={img}
-                    alt={currentCategory.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-
-              {/* Overlay gradient */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: 'linear-gradient(to top, rgba(42,41,39,0.6) 0%, transparent 40%)',
-                }}
-              />
-
-              {/* Category label */}
-              <div className="absolute bottom-6 right-6">
-                <span
-                  className="font-body text-sm px-4 py-2 rounded-full"
-                  style={{
-                    background: 'rgba(42,41,39,0.8)',
-                    backdropFilter: 'blur(8px)',
-                    color: '#D4A853',
-                  }}
-                >
-                  {currentCategory.name}
-                </span>
-              </div>
-            </div>
-
-            {/* Thumbnail strip */}
-            {currentCategory.images.length > 1 && (
-              <div className="flex gap-2 mt-4">
-                {currentCategory.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveImage(idx)}
-                    className="relative w-14 h-14 rounded-lg overflow-hidden transition-all duration-300"
-                    style={{
-                      border: idx === activeImage ? '2px solid #D4A853' : '2px solid transparent',
-                    }}
-                  >
-                    <img src={img} alt="" className="w-full h-full object-cover" />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+              {f.label}
+            </button>
+          ))}
         </div>
       </div>
+
+      {/* Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+        {filtered.map((product, idx) => (
+          <div
+            key={product.id}
+            className={`group relative overflow-hidden bg-[hsl(var(--dark-3))] cursor-pointer transition-transform duration-500 ${
+              product.large ? 'md:col-span-1 lg:row-span-2' : ''
+            } reveal`}
+            style={{
+              aspectRatio: product.large ? 'auto' : '3/4',
+              minHeight: product.large ? '600px' : undefined,
+              transitionDelay: `${idx * 100}ms`,
+            }}
+          >
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover transition-all duration-700 brightness-[0.85] group-hover:brightness-100 group-hover:scale-105"
+            />
+
+            {/* Badge */}
+            {product.badge && (
+              <div className="absolute top-5 right-5 bg-[hsl(var(--gold))] text-[hsl(var(--dark-1))] text-xs font-bold tracking-wider px-3 py-1.5 rounded-sm z-10">
+                {product.badge}
+              </div>
+            )}
+
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 lg:p-8 translate-y-5 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+              <div className="text-xs tracking-[0.2em] text-[hsl(var(--gold))] mb-2">{product.code}</div>
+              <h3 className="font-['Playfair_Display'] text-xl lg:text-2xl font-bold mb-3 text-[hsl(var(--cream))]">{product.name}</h3>
+              <div className="flex flex-wrap gap-2">
+                {product.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs px-3 py-1 bg-[hsl(var(--gold)/0.2)] border border-[hsl(var(--gold)/0.4)] rounded-full text-[hsl(var(--gold))]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Catalog link */}
+      <div className="mt-16 reveal">
+        <div className="text-center mb-6">
+          <div className="section-label justify-center">تحميل الكتالوج الرسمي</div>
+          <p className="text-sm text-[hsl(var(--cream-dim))] mt-2">اضغط على الصورة لفتح كتالوج HM Doors الكامل</p>
+        </div>
+        <a
+          href="https://drive.google.com/file/d/1K3A_bkl8cYjTRVzSTfJ0Rghk2GTWf7vZ/view"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center gap-6 bg-[hsl(var(--dark-3))] border border-[hsl(var(--gold)/0.25)] p-5 rounded max-w-lg mx-auto hover:border-[hsl(var(--gold))] hover:-translate-y-1 hover:shadow-2xl transition-all duration-400"
+        >
+          <div className="w-20 h-24 bg-gradient-to-br from-[hsl(var(--green-deep))] to-[#0A3020] border border-[hsl(var(--gold)/0.4)] flex flex-col items-center justify-center gap-1 flex-shrink-0 rounded-sm">
+            <span className="font-['Playfair_Display'] text-base font-black text-[hsl(var(--gold))]">HM</span>
+            <span className="text-[0.6rem] tracking-widest text-[hsl(var(--gold))]">DOORS</span>
+            <svg viewBox="0 0 24 24" className="w-4 h-4 mt-1 fill-[hsl(var(--gold))]">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 4h5v5h7v11H6V4z" />
+            </svg>
+          </div>
+          <div className="flex-1">
+            <h4 className="font-['Playfair_Display'] text-base font-bold text-[hsl(var(--gold))] mb-1">كتالوج HM Doors الكامل</h4>
+            <p className="text-xs text-[hsl(var(--cream-dim))] leading-relaxed">
+              21 صفحة &bull; أبواب HPL &bull; ميلامين &bull; GT &bull; PZ &bull; XP<br />
+              + ألوان &bull; أبعاد &bull; تفاصيل تركيب
+            </p>
+            <div className="flex items-center gap-2 mt-3">
+              <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-[hsl(var(--gold))]">
+                <path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z" />
+              </svg>
+              <span className="text-xs text-[hsl(var(--gold))] tracking-wider">تحميل PDF مجاناً</span>
+            </div>
+          </div>
+          <div className="w-11 h-11 bg-[hsl(var(--gold))] rounded-full flex items-center justify-center flex-shrink-0 text-[hsl(var(--dark-1))] group-hover:-translate-x-1 group-hover:scale-110 transition-transform">
+            <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current">
+              <path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z" />
+            </svg>
+          </div>
+        </a>
+      </div>
     </section>
-  );
+  )
 }

@@ -1,102 +1,190 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Phone, MapPin, Clock, Package } from 'lucide-react'
 
-gsap.registerPlugin(ScrollTrigger);
+const contactInfo = [
+  {
+    icon: Phone,
+    title: 'الهاتف / واتساب',
+    content: (
+      <>
+        <a href="tel:01024209955" className="text-[hsl(var(--cream-dim))] hover:text-[hsl(var(--gold))] transition-colors block">01024209955</a>
+        <a href="tel:01228066083" className="text-[hsl(var(--cream-dim))] hover:text-[hsl(var(--gold))] transition-colors block">01228066083</a>
+      </>
+    ),
+  },
+  {
+    icon: MapPin,
+    title: 'العنوان',
+    content: (
+      <p className="text-[hsl(var(--cream-dim))]">
+        المحلة الكبرى - شارع التحرير<br />
+        بجوار مسجد المتولي<br />
+        عمارة محمد محي الدين
+      </p>
+    ),
+  },
+  {
+    icon: Clock,
+    title: 'ساعات العمل',
+    content: (
+      <p className="text-[hsl(var(--cream-dim))]">
+        السبت - الخميس<br />
+        9:00 صباحاً - 10:00 مساءً
+      </p>
+    ),
+  },
+  {
+    icon: Package,
+    title: 'خدماتنا',
+    content: (
+      <p className="text-[hsl(var(--cream-dim))]">
+        أبواب HPL &bull; ألواح ميلامين<br />
+        ألواح جدارية &bull; بنلات
+      </p>
+    ),
+  },
+]
+
+const productOptions = [
+  'اختر نوع الباب',
+  'أبواب HPL عصرية (YX)',
+  'أبواب HPL كلاسيكية (GT)',
+  'أبواب HPL بإطار علوي (PTM)',
+  'أبواب HPL بخطوط ذهبية',
+  'أبواب ميلامين',
+  'ألواح جدارية HPL',
+  'كتالوج كامل',
+]
+
+const colorOptions = [
+  'بني كلاسيكي',
+  'بني داكن',
+  'كرزي غامق',
+  'أسود',
+  'بيج فاتح',
+  'رمادي',
+  'أبيض',
+  'لم أقرر بعد',
+]
 
 export default function Contact() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const els = contentRef.current?.children;
-      if (!els) return;
-      gsap.fromTo(
-        els,
-        { y: 40, opacity: 0 },
-        {
-          y: 0, opacity: 1, stagger: 0.15, duration: 0.8, ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  const handleSubmit = () => {
+    const name = (document.querySelector('input[name="name"]') as HTMLInputElement)?.value || 'عميل كريم'
+    const phone = (document.querySelector('input[name="phone"]') as HTMLInputElement)?.value || 'غير محدد'
+    const product = (document.querySelector('select[name="product"]') as HTMLSelectElement)?.value || 'غير محدد'
+    const msg = `مرحباً HM Doors 👋\nاسمي: ${name}\nهاتفي: ${phone}\nأحتاج: ${product}\nأرجو التواصل معي لعرض الأسعار.`
+    window.open(`https://wa.me/201024209955?text=${encodeURIComponent(msg)}`, '_blank')
+  }
 
   return (
-    <section
-      ref={sectionRef}
-      id="contact"
-      className="relative w-full py-32 lg:py-40"
-      style={{ background: '#2A2927' }}
-    >
-      <div className="max-w-[800px] mx-auto px-5 lg:px-12 text-center">
-        <div ref={contentRef}>
-          {/* Watermark */}
-          <span
-            className="font-display block mb-8"
-            style={{
-              fontSize: '14px',
-              color: '#D4A853',
-              letterSpacing: '6px',
-              opacity: 0.4,
-            }}
-          >
-            HM DOORS
-          </span>
+    <section id="contact" className="grid grid-cols-1 lg:grid-cols-2">
+      {/* Left */}
+      <div className="relative overflow-hidden bg-[hsl(var(--green-deep))] px-8 lg:px-20 py-20 lg:py-24">
+        <div
+          className="absolute -top-1/2 -right-1/2 w-full h-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%)',
+          }}
+        />
 
-          {/* Headline */}
-          <h2
-            className="font-display leading-[0.95]"
-            style={{
-              fontSize: 'clamp(48px, 8vw, 96px)',
-              color: '#F4EDE4',
-              letterSpacing: '-2px',
-            }}
-          >
-            ابدأ بابك التالي
+        <div className="relative z-10">
+          <div className="section-label">تواصل معنا</div>
+          <h2 className="section-title reveal mb-12" style={{ transitionDelay: '100ms' }}>
+            نحن <span className="text-[hsl(var(--gold))]">هنا</span><br />لخدمتك
           </h2>
 
-          {/* Body */}
-          <p
-            className="font-body mt-6 mx-auto max-w-xl"
-            style={{
-              fontSize: '18px',
-              color: 'rgba(244,237,228,0.7)',
-              lineHeight: 1.7,
-            }}
-          >
-            سواء كنت مهندسًا يخطط لمشروع ضخم أو صاحب منزل يجدد غرفة واحدة — فريقنا جاهز لمساعدتك
-          </p>
+          <div className="space-y-8">
+            {contactInfo.map((item, i) => (
+              <div key={i} className="flex gap-5 reveal" style={{ transitionDelay: `${200 + i * 100}ms` }}>
+                <div className="w-12 h-12 flex-shrink-0 bg-[hsl(var(--gold)/0.1)] border border-[hsl(var(--gold)/0.4)] rounded-full flex items-center justify-center">
+                  <item.icon size={20} className="text-[hsl(var(--gold))]" />
+                </div>
+                <div>
+                  <h4 className="text-xs tracking-widest text-[hsl(var(--gold))] mb-1.5">{item.title}</h4>
+                  {item.content}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
-          {/* CTA Button */}
-          <a
-            href="#"
-            className="inline-block font-body font-medium text-lg rounded-full px-12 py-4 mt-10 transition-all duration-300 hover:-translate-y-0.5"
-            style={{
-              background: '#D4A853',
-              color: '#2A2927',
-              boxShadow: '0 12px 48px rgba(212,168,83,0.35)',
-            }}
-          >
-            احصل على عرض
-          </a>
+      {/* Right - Form */}
+      <div className="px-8 lg:px-20 py-20 lg:py-24 bg-[hsl(var(--dark-2))] reveal">
+        <h3 className="font-['Playfair_Display'] text-2xl lg:text-3xl mb-10 text-[hsl(var(--gold))]">
+          اطلب عرض أسعار
+        </h3>
 
-          {/* Phone */}
-          <p className="font-body text-sm mt-5" style={{ color: '#999' }}>
-            أو اتصل بنا مباشرة:{' '}
-            <a
-              href="tel:0096650XXXXXX"
-              className="transition-all duration-300 hover:underline"
-              style={{ color: '#D4A853' }}
+        <div className="space-y-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs tracking-wider text-[hsl(var(--gold))] mb-2">الاسم الكامل</label>
+              <input
+                type="text"
+                name="name"
+                placeholder="اسمك الكريم"
+                className="w-full bg-white/[0.03] border border-[hsl(var(--gold)/0.2)] text-[hsl(var(--cream))] px-4 py-3 text-sm rounded-sm focus:border-[hsl(var(--gold))] focus:bg-[hsl(var(--gold)/0.05)] outline-none transition-all placeholder:text-[hsl(var(--cream-dim))]/50"
+              />
+            </div>
+            <div>
+              <label className="block text-xs tracking-wider text-[hsl(var(--gold))] mb-2">رقم الهاتف</label>
+              <input
+                type="tel"
+                name="phone"
+                placeholder="رقم التواصل"
+                className="w-full bg-white/[0.03] border border-[hsl(var(--gold)/0.2)] text-[hsl(var(--cream))] px-4 py-3 text-sm rounded-sm focus:border-[hsl(var(--gold))] focus:bg-[hsl(var(--gold)/0.05)] outline-none transition-all placeholder:text-[hsl(var(--cream-dim))]/50"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs tracking-wider text-[hsl(var(--gold))] mb-2">نوع المنتج المطلوب</label>
+            <select
+              name="product"
+              className="w-full bg-white/[0.03] border border-[hsl(var(--gold)/0.2)] text-[hsl(var(--cream))] px-4 py-3 text-sm rounded-sm focus:border-[hsl(var(--gold))] focus:bg-[hsl(var(--gold)/0.05)] outline-none transition-all"
             >
-              00966-50-XXX-XXXX
-            </a>
-          </p>
+              {productOptions.map((o) => (
+                <option key={o} value={o} className="bg-[hsl(var(--dark-3))]">{o}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs tracking-wider text-[hsl(var(--gold))] mb-2">اللون المفضل</label>
+              <select className="w-full bg-white/[0.03] border border-[hsl(var(--gold)/0.2)] text-[hsl(var(--cream))] px-4 py-3 text-sm rounded-sm focus:border-[hsl(var(--gold))] focus:bg-[hsl(var(--gold)/0.05)] outline-none transition-all">
+                {colorOptions.map((o) => (
+                  <option key={o} value={o} className="bg-[hsl(var(--dark-3))]">{o}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs tracking-wider text-[hsl(var(--gold))] mb-2">عدد الأبواب المطلوبة</label>
+              <input
+                type="number"
+                min="1"
+                placeholder="3"
+                className="w-full bg-white/[0.03] border border-[hsl(var(--gold)/0.2)] text-[hsl(var(--cream))] px-4 py-3 text-sm rounded-sm focus:border-[hsl(var(--gold))] focus:bg-[hsl(var(--gold)/0.05)] outline-none transition-all placeholder:text-[hsl(var(--cream-dim))]/50"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs tracking-wider text-[hsl(var(--gold))] mb-2">ملاحظات إضافية</label>
+            <textarea
+              rows={4}
+              placeholder="أي متطلبات خاصة أو أسئلة..."
+              className="w-full bg-white/[0.03] border border-[hsl(var(--gold)/0.2)] text-[hsl(var(--cream))] px-4 py-3 text-sm rounded-sm focus:border-[hsl(var(--gold))] focus:bg-[hsl(var(--gold)/0.05)] outline-none transition-all resize-none placeholder:text-[hsl(var(--cream-dim))]/50"
+            />
+          </div>
+
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-gradient-to-br from-[hsl(var(--gold))] to-[hsl(var(--gold-dark))] text-[hsl(var(--dark-1))] py-4 rounded-sm font-bold text-base tracking-wide hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[hsl(var(--gold)/0.3)] transition-all duration-300"
+          >
+            إرسال الطلب عبر واتساب
+          </button>
         </div>
       </div>
     </section>
-  );
+  )
 }

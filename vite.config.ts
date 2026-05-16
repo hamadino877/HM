@@ -1,11 +1,10 @@
-import { defineConfig } from "vite"
-import react from "@vitejs/plugin-react"
 import path from "path"
-import { inspectAttr } from "kimi-plugin-inspect-react"
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vite"
 
 export default defineConfig({
-  base: "/HM/",   // مهم جدًا لموقع GitHub Pages
-  plugins: [inspectAttr(), react()],
+  base: '/HM/',
+  plugins: [react()],
   server: {
     port: 3000,
   },
@@ -14,4 +13,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-})
+});

@@ -1,78 +1,66 @@
-import { useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Navbar from './components/Navbar'
+import Hero from './sections/Hero'
+import Marquee from './sections/Marquee'
+import FeaturesStrip from './sections/FeaturesStrip'
+import Products from './sections/Products'
+import HPLSection from './sections/HPLSection'
+import MelamineSection from './sections/MelamineSection'
+import About from './sections/About'
+import Colors from './sections/Colors'
+import DoorTypes from './sections/DoorTypes'
+import SocialMedia from './sections/SocialMedia'
+import Contact from './sections/Contact'
+import Footer from './sections/Footer'
+import WhatsAppButton from './components/WhatsAppButton'
+import { useEffect } from 'react'
 
-import Navigation from './sections/Navigation';
-import Hero from './sections/Hero';
-import Products from './sections/Products';
-import Showcase from './sections/Showcase';
-import Features from './sections/Features';
-import Finishes from './sections/Finishes';
-import Testimonials from './sections/Testimonials';
-import Contact from './sections/Contact';
-import Footer from './sections/Footer';
-
-gsap.registerPlugin(ScrollTrigger);
-
-function App() {
+export default function App() {
   useEffect(() => {
-    // Initialize Lenis smooth scroll
-    let lenis: any = null;
-    let rafId: number;
+    // Scroll reveal observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible')
+      })
+    }, { threshold: 0.1 })
 
-    const initLenis = async () => {
-      try {
-        const Lenis = (await import('lenis')).default;
-        lenis = new Lenis({
-          lerp: 0.1,
-          duration: 1.2,
-          smoothWheel: true,
-          syncTouch: true,
-        });
+    const reveals = document.querySelectorAll('.reveal')
+    reveals.forEach(r => observer.observe(r))
 
-        lenis.on('scroll', () => {
-          ScrollTrigger.update();
-        });
-
-        const raf = (time: number) => {
-          lenis.raf(time);
-          rafId = requestAnimationFrame(raf);
-        };
-        rafId = requestAnimationFrame(raf);
-      } catch (e) {
-        console.warn('Lenis not available, using native scroll');
+    // Nav scroll effect
+    const handleScroll = () => {
+      const nav = document.querySelector('nav')
+      if (nav) {
+        if (window.scrollY > 80) {
+          nav.classList.add('nav-scrolled')
+        } else {
+          nav.classList.remove('nav-scrolled')
+        }
       }
-    };
-
-    initLenis();
-
-    // Refresh ScrollTrigger on load
-    const handleLoad = () => {
-      ScrollTrigger.refresh();
-    };
-    window.addEventListener('load', handleLoad);
+    }
+    window.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener('load', handleLoad);
-      if (lenis) lenis.destroy();
-      if (rafId) cancelAnimationFrame(rafId);
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-    };
-  }, []);
+      observer.disconnect()
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   return (
-    <div className="relative" style={{ background: '#2A2927' }}>
-      <Navigation />
+    <div className="noise-overlay min-h-[100dvh] bg-[hsl(var(--dark-1))] text-[hsl(var(--cream))]">
+      <Navbar />
       <Hero />
+      <Marquee />
+      <FeaturesStrip />
       <Products />
-      <Showcase />
-      <Features />
-      <Finishes />
-      <Testimonials />
+      <HPLSection />
+      <MelamineSection />
+      <About />
+      <Colors />
+      <DoorTypes />
+      <SocialMedia />
       <Contact />
       <Footer />
+      <WhatsAppButton />
     </div>
-  );
+  )
 }
-
-export default App;

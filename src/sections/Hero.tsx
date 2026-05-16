@@ -1,219 +1,114 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import { useEffect, useRef } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const trustRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const particlesRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Page load animation sequence
-      const tl = gsap.timeline({ delay: 0.3 });
+    const container = particlesRef.current
+    if (!container) return
 
-      tl.fromTo(
-        overlayRef.current,
-        { opacity: 1 },
-        { opacity: 0, duration: 0.8, ease: 'power2.inOut' }
-      );
+    const particles: HTMLDivElement[] = []
+    for (let i = 0; i < 15; i++) {
+      const p = document.createElement('div')
+      const size = Math.random() * 4 + 2
+      p.style.cssText = `
+        position: absolute;
+        border-radius: 50%;
+        background: hsl(var(--gold));
+        opacity: 0.12;
+        width: ${size}px;
+        height: ${size}px;
+        left: ${Math.random() * 100}%;
+        animation: float ${Math.random() * 15 + 10}s linear infinite;
+        animation-delay: ${Math.random() * 10}s;
+        pointer-events: none;
+      `
+      container.appendChild(p)
+      particles.push(p)
+    }
 
-      // Hero image scale
-      tl.fromTo(
-        imageRef.current,
-        { scale: 1.1, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1.2, ease: 'power2.out' },
-        '-=0.6'
-      );
-
-      // Headline words animation
-      if (headlineRef.current) {
-        const words = headlineRef.current.querySelectorAll('.word');
-        tl.fromTo(
-          words,
-          { y: 60, opacity: 0 },
-          { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: 'power3.out' },
-          '-=0.6'
-        );
-      }
-
-      // Subtitle
-      tl.fromTo(
-        subtitleRef.current,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' },
-        '-=0.4'
-      );
-
-      // CTA buttons
-      tl.fromTo(
-        ctaRef.current,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' },
-        '-=0.3'
-      );
-
-      // Trust bar
-      tl.fromTo(
-        trustRef.current,
-        { y: 15, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
-        '-=0.2'
-      );
-
-      // Scroll parallax for the image
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-        onUpdate: (self) => {
-          if (imageRef.current) {
-            gsap.set(imageRef.current, {
-              y: self.progress * 150,
-            });
-          }
-        },
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const headlineText = 'أبواب تصنع الفرق';
-  const words = headlineText.split(' ');
+    return () => {
+      particles.forEach(p => p.remove())
+    }
+  }, [])
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative w-full overflow-hidden"
-      style={{ height: '100vh', background: '#2A2927' }}
-    >
-      {/* Loading overlay */}
+    <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
+      {/* Background */}
       <div
-        ref={overlayRef}
-        className="fixed inset-0 z-[70] flex items-center justify-center pointer-events-none"
-        style={{ background: '#2A2927', opacity: 0 }}
-      >
-        <span className="font-display text-2xl" style={{ color: '#D4A853' }}>
-          HM DOORS
-        </span>
-      </div>
+        className="absolute inset-0"
+        style={{
+          background: `
+            radial-gradient(ellipse at 30% 50%, rgba(13,43,26,0.8) 0%, transparent 60%),
+            radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+            linear-gradient(135deg, #050E08 0%, #0A0A0A 50%, #0D1A0A 100%)
+          `,
+        }}
+      />
 
-      {/* Background Image */}
+      {/* Grid overlay */}
       <div
-        ref={imageRef}
-        className="absolute inset-0 w-full h-full"
-        style={{ opacity: 0 }}
-      >
-        <img
-          src="/images/hero-doors-panorama.jpg"
-          alt="Luxury Italian Doors"
-          className="w-full h-full object-cover"
-          style={{ filter: 'brightness(0.5) saturate(1.1)' }}
-        />
-        {/* Gradient overlays */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(to top, rgba(42,41,39,0.95) 0%, rgba(42,41,39,0.6) 40%, rgba(42,41,39,0.2) 70%, transparent 100%)',
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(to left, rgba(42,41,39,0.7) 0%, transparent 50%)',
-          }}
-        />
-      </div>
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
+          maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, black 20%, transparent 80%)',
+        }}
+      />
+
+      {/* Particles */}
+      <div ref={particlesRef} className="absolute inset-0 overflow-hidden pointer-events-none" />
 
       {/* Content */}
-      <div className="relative z-10 h-full flex items-end">
-        <div
-          className="mx-6 lg:mr-12 lg:ml-auto mb-16 lg:mb-20 p-8 lg:p-12 rounded-3xl max-w-[560px]"
-          style={{
-            background: 'rgba(42,41,39,0.6)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-          }}
-        >
-          {/* Headline */}
-          <h1
-            ref={headlineRef}
-            className="font-display leading-[0.95]"
-            style={{
-              fontSize: 'clamp(48px, 8vw, 96px)',
-              color: '#F4EDE4',
-              letterSpacing: '-2px',
-            }}
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-3 border border-[hsl(var(--gold)/0.4)] px-5 py-2 rounded-full mb-10 animate-fadeInDown opacity-0">
+          <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--gold))] animate-pulse" />
+          <span className="text-xs tracking-[0.2em] text-[hsl(var(--gold))]">
+            محمد محي الدين &bull; المحلة الكبرى &bull; مصر
+          </span>
+        </div>
+
+        {/* Title */}
+        <h1 className="font-['Playfair_Display'] font-black leading-[1.05] mb-8 animate-fadeInUp delay-200 opacity-0" style={{ fontSize: 'clamp(2.5rem, 7vw, 6rem)' }}>
+          أبواب <span className="text-[hsl(var(--gold))]">تُجسّد</span>
+          <br />
+          <span className="text-transparent" style={{ WebkitTextStroke: '1.5px hsl(var(--gold))' }}>الفخامة</span> والجمال
+        </h1>
+
+        {/* Subtitle */}
+        <p className="text-lg text-[hsl(var(--cream-dim))] leading-relaxed max-w-xl mx-auto mb-12 animate-fadeInUp delay-400 opacity-0">
+          متخصصون في الأبواب المصفحة وأبواب HPL والميلامين.
+          جودة استثنائية، تصاميم عصرية، ومواد مقاومة للرطوبة والحرائق.
+        </p>
+
+        {/* CTA Buttons */}
+        <div className="flex gap-5 justify-center flex-wrap animate-fadeInUp delay-600 opacity-0">
+          <a
+            href="#products"
+            className="bg-gradient-to-br from-[hsl(var(--gold))] to-[hsl(var(--gold-dark))] text-[hsl(var(--dark-1))] px-10 py-4 rounded-sm font-bold tracking-wide hover:-translate-y-1 hover:shadow-xl hover:shadow-[hsl(var(--gold)/0.3)] transition-all duration-300"
           >
-            {words.map((word, i) => (
-              <span key={i} className="word inline-block mr-3">
-                {word}
-              </span>
-            ))}
-          </h1>
-
-          {/* Subtitle */}
-          <p
-            ref={subtitleRef}
-            className="font-heading italic mt-5"
-            style={{ fontSize: 'clamp(18px, 2.5vw, 24px)', color: '#D4A853' }}
+            استكشف المنتجات
+          </a>
+          <a
+            href="#contact"
+            className="border border-[hsl(var(--cream)/0.3)] text-[hsl(var(--cream))] px-10 py-4 rounded-sm font-medium tracking-wide hover:border-[hsl(var(--gold))] hover:text-[hsl(var(--gold))] transition-all duration-300"
           >
-            صناعة إيطالية. خشب عتيق. تصميم يدوم جيلًا.
-          </p>
-
-          {/* CTA Buttons */}
-          <div ref={ctaRef} className="flex flex-wrap gap-4 mt-8">
-            <a
-              href="#products"
-              className="font-body font-medium text-base rounded-full px-9 py-3.5 transition-all duration-300 hover:-translate-y-0.5"
-              style={{
-                background: '#D4A853',
-                color: '#2A2927',
-              }}
-            >
-              تصفح المجموعة
-            </a>
-            <a
-              href="#features"
-              className="font-body font-medium text-base rounded-full px-9 py-3.5 border transition-all duration-300 hover:-translate-y-0.5"
-              style={{
-                borderColor: 'rgba(244,237,228,0.3)',
-                color: '#F4EDE4',
-                background: 'transparent',
-              }}
-            >
-              شاهد العملية
-            </a>
-          </div>
-
-          {/* Trust bar */}
-          <div ref={trustRef} className="flex flex-wrap gap-6 mt-8">
-            {[
-              'متابعة طلبك',
-              'ضمان 25 سنة',
-              'خدمة صانعي الأبواب',
-            ].map((item) => (
-              <div key={item} className="flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="7.5" stroke="#D4A853" strokeWidth="1" />
-                  <path d="M4.5 8.5L7 11L11.5 5.5" stroke="#D4A853" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span className="font-body text-sm" style={{ color: '#999' }}>
-                  {item}
-                </span>
-              </div>
-            ))}
-          </div>
+            اطلب عرض أسعار
+          </a>
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--cream-dim))] text-xs tracking-widest animate-fadeIn delay-1000 opacity-0">
+        <span>اسحب للأسفل</span>
+        <ChevronDown size={20} className="text-[hsl(var(--gold))] animate-bounce" />
+      </div>
     </section>
-  );
+  )
 }

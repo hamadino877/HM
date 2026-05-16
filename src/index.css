@@ -4,63 +4,183 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    /* HM Doors Custom Colors */
+    --gold: 38 55% 55%;
+    --gold-light: 38 60% 65%;
+    --gold-dark: 38 50% 35%;
+    --dark-0: 0 0% 2%;
+    --dark-1: 0 0% 5%;
+    --dark-2: 0 0% 8%;
+    --dark-3: 0 0% 12%;
+    --dark-4: 0 0% 18%;
+    --cream: 36 25% 95%;
+    --cream-dim: 36 15% 75%;
+    --green-deep: 150 40% 12%;
+
+    --background: 0 0% 5%;
+    --foreground: 36 25% 95%;
+    --card: 0 0% 8%;
+    --card-foreground: 36 25% 95%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 36 25% 95%;
+    --primary: 38 55% 55%;
+    --primary-foreground: 0 0% 5%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 36 25% 95%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 36 10% 65%;
+    --accent: 38 55% 55%;
+    --accent-foreground: 0 0% 5%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.625rem;
-
-    /* Brand tokens */
-    --surface-primary: #2A2927;
-    --surface-secondary: #F4EDE4;
-    --surface-dark: #3D3B38;
-    --accent-amber: #D4A853;
-    --accent-sienna: #C4965A;
-    --text-primary: #F4EDE4;
-    --text-secondary: #2A2927;
-    --text-muted: #999999;
-    --glass-bg: rgba(42, 41, 39, 0.5);
+    --border: 38 30% 25%;
+    --input: 0 0% 12%;
+    --ring: 38 55% 55%;
+    --radius: 0.5rem;
   }
+}
 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Tajawal', sans-serif;
+  }
   html {
     scroll-behavior: smooth;
   }
-
-  body {
-    font-family: 'Noto Sans Arabic', sans-serif;
-    background-color: var(--surface-primary);
-    color: var(--text-primary);
-    overflow-x: hidden;
-  }
-
-  h1, h2, h3 {
-    font-family: 'Oranienbaum', serif;
-  }
-
-  .font-display {
-    font-family: 'Oranienbaum', serif;
-  }
-
-  .font-heading {
-    font-family: 'Cormorant Garamond', serif;
-  }
-
-  .font-body {
-    font-family: 'Noto Sans Arabic', sans-serif;
-  }
 }
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scrollLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes float {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.12; }
+  90% { opacity: 0.12; }
+  100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+
+.animate-fadeInUp { animation: fadeInUp 0.8s ease forwards; }
+.animate-fadeInDown { animation: fadeInDown 0.8s ease forwards; }
+.animate-fadeIn { animation: fadeIn 1s ease forwards; }
+.animate-bounceIn { animation: bounceIn 0.8s ease forwards; }
+.animate-marquee { animation: marquee 30s linear infinite; }
+.animate-scrollLine { animation: scrollLine 2s ease-in-out infinite; }
+.animate-pulse { animation: pulse 2s infinite; }
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-800 { animation-delay: 0.8s; }
+.delay-1000 { animation-delay: 1s; }
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Noise overlay */
+.noise-overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.3;
+}
+
+/* Section styles */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: hsl(var(--gold));
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.section-label::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: hsl(var(--gold));
+}
+.section-label.justify-center {
+  justify-content: center;
+}
+.section-label.justify-center::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: hsl(var(--gold));
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+
+/* Nav scrolled state */
+.nav-scrolled {
+  background: hsl(var(--dark-1) / 0.98) !important;
+  border-bottom-color: hsl(var(--gold) / 0.3) !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: hsl(var(--dark-2)); }
+::-webkit-scrollbar-thumb { background: hsl(var(--gold) / 0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--gold) / 0.5); }
