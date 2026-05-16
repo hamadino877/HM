@@ -66,11 +66,19 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+
+        {/* Logo */}
+        <div className="flex justify-center mb-6 animate-fadeInDown opacity-0">
+          <span className="font-['Playfair_Display'] text-4xl font-black text-[hsl(var(--gold))] tracking-wider">
+            HM<span className="text-[hsl(var(--cream))]"> DOORS</span>
+          </span>
+        </div>
+
         {/* Badge */}
-        <div className="inline-flex items-center gap-3 border border-[hsl(var(--gold)/0.4)] px-5 py-2 rounded-full mb-10 animate-fadeInDown opacity-0">
+        <div className="inline-flex items-center gap-3 border border-[hsl(var(--gold)/0.4)] px-5 py-2 rounded-full mb-10 animate-fadeInDown opacity-0" style={{ animationDelay: '0.1s' }}>
           <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--gold))] animate-pulse" />
           <span className="text-xs tracking-[0.2em] text-[hsl(var(--gold))]">
-            محمد محي الدين &bull; المحلة الكبرى &bull; مصر
+            محي الدين للأبواب المصفحة
           </span>
         </div>
 

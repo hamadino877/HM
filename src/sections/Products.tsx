@@ -16,7 +16,7 @@ const products: Product[] = [
     id: '1',
     name: 'الباب العصري المميز',
     code: 'HPL-YX01',
-    category: 'modern',
+    category: 'مصفحة',
     tags: ['HPL', 'مقاوم للماء', 'عازل للصوت'],
     badge: 'الأكثر مبيعاً',
     image: '/images/door-hpl-1.jpg',
@@ -26,7 +26,7 @@ const products: Product[] = [
     id: '2',
     name: 'الباب الكلاسيكي الفاخر',
     code: 'HPL-GT01',
-    category: 'classic',
+    category: 'غرف',
     tags: ['HPL', 'تخصيص'],
     image: '/images/door-hpl-2.jpg',
   },
@@ -34,7 +34,7 @@ const products: Product[] = [
     id: '3',
     name: 'باب بإطار علوي متكامل',
     code: 'HPL-PTM02',
-    category: 'premium',
+    category: 'سادة',
     tags: ['HPL', 'مقاوم للحرارة'],
     badge: 'جديد',
     image: '/images/door-hpl-3.jpg',
@@ -43,7 +43,7 @@ const products: Product[] = [
     id: '4',
     name: 'باب بنافذة زجاجية',
     code: 'HPL-PZL01',
-    category: 'glass',
+    category: 'حفر',
     tags: ['زجاج مات', 'أنيق'],
     image: '/images/door-modern-1.jpg',
   },
@@ -51,7 +51,7 @@ const products: Product[] = [
     id: '5',
     name: 'باب بخطوط ذهبية',
     code: 'HPL-GT05',
-    category: 'classic',
+    category: 'استانلس',
     tags: ['HPL', 'خط ذهبي'],
     image: '/images/door-hpl-2.jpg',
   },
@@ -59,7 +59,7 @@ const products: Product[] = [
     id: '6',
     name: 'باب بتصميم هندسي',
     code: 'HPL-XP01',
-    category: 'modern',
+    category: 'لونين',
     tags: ['HPL', 'هندسي'],
     image: '/images/door-hpl-1.jpg',
   },
@@ -67,10 +67,14 @@ const products: Product[] = [
 
 const filters = [
   { key: 'all', label: 'الكل' },
-  { key: 'modern', label: 'عصري' },
-  { key: 'classic', label: 'كلاسيك' },
-  { key: 'premium', label: 'راقي' },
-  { key: 'glass', label: 'بالزجاج' },
+  { key: 'مصفحة', label: 'أبواب مصفحة' },
+  { key: 'غرف', label: 'أبواب الغرف' },
+  { key: 'سادة', label: 'أبواب سادة' },
+  { key: 'حفر', label: 'أبواب حفر' },
+  { key: 'استانلس', label: 'أبواب أستانلس' },
+  { key: 'لونين', label: 'أبواب 2 لون' },
+  { key: 'باركز', label: 'أبواب باركز أكليرك' },
+  { key: 'متداخلة', label: 'أبواب متداخلة' },
 ]
 
 export default function Products() {
@@ -126,15 +130,11 @@ export default function Products() {
               alt={product.name}
               className="w-full h-full object-cover transition-all duration-700 brightness-[0.85] group-hover:brightness-100 group-hover:scale-105"
             />
-
-            {/* Badge */}
             {product.badge && (
               <div className="absolute top-5 right-5 bg-[hsl(var(--gold))] text-[hsl(var(--dark-1))] text-xs font-bold tracking-wider px-3 py-1.5 rounded-sm z-10">
                 {product.badge}
               </div>
             )}
-
-            {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 lg:p-8 translate-y-5 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
               <div className="text-xs tracking-[0.2em] text-[hsl(var(--gold))] mb-2">{product.code}</div>
               <h3 className="font-['Playfair_Display'] text-xl lg:text-2xl font-bold mb-3 text-[hsl(var(--cream))]">{product.name}</h3>

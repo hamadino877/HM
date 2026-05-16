@@ -7,7 +7,6 @@ import HPLSection from './sections/HPLSection'
 import MelamineSection from './sections/MelamineSection'
 import About from './sections/About'
 import Colors from './sections/Colors'
-import DoorTypes from './sections/DoorTypes'
 import SocialMedia from './sections/SocialMedia'
 import Contact from './sections/Contact'
 import Footer from './sections/Footer'
@@ -16,7 +15,6 @@ import { useEffect } from 'react'
 
 export default function App() {
   useEffect(() => {
-    // Scroll reveal observer
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) e.target.classList.add('visible')
@@ -26,7 +24,6 @@ export default function App() {
     const reveals = document.querySelectorAll('.reveal')
     reveals.forEach(r => observer.observe(r))
 
-    // Nav scroll effect
     const handleScroll = () => {
       const nav = document.querySelector('nav')
       if (nav) {
@@ -56,7 +53,6 @@ export default function App() {
       <MelamineSection />
       <About />
       <Colors />
-      <DoorTypes />
       <SocialMedia />
       <Contact />
       <Footer />
