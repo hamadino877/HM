@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.625rem;
+
+    /* Brand tokens */
+    --surface-primary: #2A2927;
+    --surface-secondary: #F4EDE4;
+    --surface-dark: #3D3B38;
+    --accent-amber: #D4A853;
+    --accent-sienna: #C4965A;
+    --text-primary: #F4EDE4;
+    --text-secondary: #2A2927;
+    --text-muted: #999999;
+    --glass-bg: rgba(42, 41, 39, 0.5);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Noto Sans Arabic', sans-serif;
+    background-color: var(--surface-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Oranienbaum', serif;
+  }
+
+  .font-display {
+    font-family: 'Oranienbaum', serif;
+  }
+
+  .font-heading {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .font-body {
+    font-family: 'Noto Sans Arabic', sans-serif;
+  }
+}
